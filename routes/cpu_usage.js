@@ -53,6 +53,7 @@ router.post('/', async function (req, res, next) {
         let doc = new Date().toISOString().split('T')[0];
 
         let current_cpu_usage = [];
+        let current_timestamp = [];
 
         //Get data from the database
         //Get the data
@@ -63,6 +64,7 @@ router.post('/', async function (req, res, next) {
                     console.log('No such document!');
                 } else {
                     current_cpu_usage = doc.data().cpu_usage;
+                    current_timestamp = doc.data().timestamp;
                     console.log('Document data:', doc.data().cpu_usage);
                 }
             })
@@ -74,9 +76,12 @@ router.post('/', async function (req, res, next) {
         //Send data to the database firestore
         //Add cpu_usage to the current_cpu_usage
         current_cpu_usage.push(cpu_usage);
+        //Add timestamp to the current_timestamp
+        current_timestamp.push(new Date().toISOString().split('T')[1].split('.')[0]);
 
         db.collection(collection).doc(doc).set({
-            cpu_usage: current_cpu_usage
+            cpu_usage: current_cpu_usage,
+            timestamp: current_timestamp
         }).then(ref => {
 
             res.status(201).send({
@@ -89,6 +94,7 @@ router.post('/', async function (req, res, next) {
                 },
                 data: {
                     cpu_usage: current_cpu_usage,
+                    timestamp: current_timestamp
                 }
             }); // Send the cpu_usage back as a response
         });
