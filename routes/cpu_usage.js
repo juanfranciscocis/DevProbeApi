@@ -35,7 +35,7 @@ router.post('/', async function (req, res, next) {
         //Database
         const db = req.db;
         //Collection path
-        let collection = 'teams/' + companyName + '/products/' + productName + '/cpu_usage';
+        let collection = 'teams/' + companyName + '/products/';
         // Check if the collection exists
         let collectionRef = db.collection(collection);
         let snapshot = await collectionRef.limit(1).get();
@@ -45,6 +45,8 @@ router.post('/', async function (req, res, next) {
                 error: 'Collection does not exist'
             });
         }
+
+        collection += productName +  '/cpu_usage';
 
 
         //Document = date
