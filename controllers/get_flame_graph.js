@@ -50,7 +50,7 @@ let get_flame_graph = async function (req, res, next) {
         }
 
         // Send the response
-        res.status(200).send({data});
+        res.status(200).send(data);
 
     } catch (error) {
         res.status(400).send({error: error});
