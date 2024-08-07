@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
       .then(() => res.render('index', { title: 'Express' }))
       .catch(error => next(error)); // Handle errors*/
 
-  res.status(200).send(data);
+  res.status(200).send({data: data});
 });
 
 router.post('/', function(req, res, next) {
