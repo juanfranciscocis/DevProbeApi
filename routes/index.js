@@ -7,6 +7,8 @@ router.get('/', function(req, res, next) {
 /*  req.db.collection('data').add({data: data})
       .then(() => res.render('index', { title: 'Express' }))
       .catch(error => next(error)); // Handle errors*/
+
+  res.status(200).send(data);
 });
 
 router.post('/', function(req, res, next) {
