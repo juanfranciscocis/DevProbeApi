@@ -22,8 +22,8 @@ let post_flame_graph = async function (req, res, next) {
             cpu_usage = doc.cpu_usage || [];
         }
 
-        // Function to recursively save sub-services
-        const saveSubServices = async (sub_services, existingDoc) => {
+        // Function to recursively save and nest sub-services data correctly
+        const saveSubServicesData = async (sub_services, existingDoc) => {
             let updates = {};
 
             for (let sub_service of sub_services) {
@@ -42,24 +42,28 @@ let post_flame_graph = async function (req, res, next) {
                     }
                 }
 
-                // Update the dictionary for the current sub_service
+                // Construct the nested structure for the current sub_service
                 updates[sub_service_name] = {
                     "cpu_usage": [...existing_cpu_usage_sub, sub_service.cpu_usage]
                 };
 
-                // If there are more nested sub-services, recurse
+                // If there are more nested sub-services, recurse and nest them correctly
                 if (sub_service.sub_services && sub_service.sub_services.length > 0) {
-                    updates[sub_service_name].sub_services = await saveSubServices(sub_service.sub_services, existing_sub_services);
+                    const nested_updates = await saveSubServicesData(sub_service.sub_services, existing_sub_services);
+                    updates[sub_service_name] = {
+                        ...updates[sub_service_name],
+                        ...nested_updates
+                    };
                 }
             }
             return updates;
         };
 
-        // Save the top-level service data
-        let sub_services_data = await saveSubServices(service.sub_services, doc);
+        // Save the top-level service data and nest sub-service data correctly
+        let nested_sub_services_data = await saveSubServicesData(service.sub_services, doc);
         await db.doc(path).set({
             "cpu_usage": [...cpu_usage, service.cpu_usage],
-            ...sub_services_data,
+            ...nested_sub_services_data
         }, { merge: true });
 
         // Respond with success
