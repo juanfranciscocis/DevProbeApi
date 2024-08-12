@@ -17,32 +17,50 @@ let post_flame_graph = async function (req, res, next) {
 
         // Get the current cpu_usage array from the service
         let cpu_usage = [];
-        // If the document exists then get the cpu_usage array else set it to an empty array
         if (doc.exists && doc.data()) {
             doc = doc.data();
-            cpu_usage = doc.cpu_usage;
+            cpu_usage = doc.cpu_usage || [];
         }
 
-        for (let sub_service of service.sub_services) {
-            let sub_service_name = sub_service.name;
+        // Function to recursively save sub-services
+        const saveSubServices = async (sub_services, existingDoc) => {
+            let updates = {};
 
-            // Create a dictionary directly using the sub_service_name as the key and the cpu_usage as the value
-            let sub_service_dict = {};
-            let existing_cpu_usage_sub = [];
+            for (let sub_service of sub_services) {
+                let sub_service_name = sub_service.name;
 
-            // Check if sub_service_name key exists in the document and retrieve the cpu_usage if it does
-            if (doc[sub_service_name] && doc[sub_service_name].cpu_usage) {
-                existing_cpu_usage_sub = doc[sub_service_name].cpu_usage;
+                // Get the existing sub-service data if available
+                let existing_cpu_usage_sub = [];
+                let existing_sub_services = {};
+
+                if (existingDoc[sub_service_name]) {
+                    if (existingDoc[sub_service_name].cpu_usage) {
+                        existing_cpu_usage_sub = existingDoc[sub_service_name].cpu_usage;
+                    }
+                    if (existingDoc[sub_service_name].sub_services) {
+                        existing_sub_services = existingDoc[sub_service_name].sub_services;
+                    }
+                }
+
+                // Update the dictionary for the current sub_service
+                updates[sub_service_name] = {
+                    "cpu_usage": [...existing_cpu_usage_sub, sub_service.cpu_usage]
+                };
+
+                // If there are more nested sub-services, recurse
+                if (sub_service.sub_services && sub_service.sub_services.length > 0) {
+                    updates[sub_service_name].sub_services = await saveSubServices(sub_service.sub_services, existing_sub_services);
+                }
             }
+            return updates;
+        };
 
-            sub_service_dict[sub_service_name] = { "cpu_usage": [...existing_cpu_usage_sub, sub_service.cpu_usage] };
-
-            // Update the document in Firestore
-            await db.doc(path).set({
-                "cpu_usage": [...cpu_usage, service.cpu_usage],
-                ...sub_service_dict,
-            }, { merge: true });
-        }
+        // Save the top-level service data
+        let sub_services_data = await saveSubServices(service.sub_services, doc);
+        await db.doc(path).set({
+            "cpu_usage": [...cpu_usage, service.cpu_usage],
+            ...sub_services_data,
+        }, { merge: true });
 
         // Respond with success
         res.status(200).json({ message: 'Data saved successfully' });
@@ -50,6 +68,6 @@ let post_flame_graph = async function (req, res, next) {
         console.error('Error saving data:', error);
         res.status(500).json({ message: 'Failed to save data', error: error.message });
     }
-}
+};
 
 module.exports = { post_flame_graph };
