@@ -8,7 +8,13 @@ let post_flame_graph = async function (req, res, next) {
 
         // Construct the path for Firestore
         let date = new Date().toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
-        let basePath = `teams/${team}/products/${product}/cpu_usage/${date}`;
+        let basePath = `teams/${team}/products/${product}/cpu_usage/`;
+        basePath += date; // Append the date to the path
+
+        await db.doc(basePath).set({}, { merge: true }); // Create the base path if it doesn't exist
+
+
+
         let path = `${basePath}/${server}/${service.name}`;
 
         // Get the data from the database
