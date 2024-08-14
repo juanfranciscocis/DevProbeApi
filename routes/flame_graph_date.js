@@ -6,5 +6,6 @@ const { get_flame_graph_date } = require('../controllers/flame_graph/get_flame_g
 
 router
     .get('/', get_flame_graph_date)
+    .post('/', get_flame_graph_date); // Use the correct function as a callback
 
 module.exports = router;
