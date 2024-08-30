@@ -7,6 +7,7 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const flameGraphRouter = require('./routes/flame_graph');
 const flameGraphDateRouter = require('./routes/flame_graph_date');
+const flameGraphMemoryRouter = require('./routes/flame_graph_memory');
 
 const app = express();
 
@@ -41,6 +42,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/flame_graph', flameGraphRouter);
 app.use('/flame_graph_date', flameGraphDateRouter);
+app.use('/flame_graph_memory', flameGraphMemoryRouter);
+
 
 
 // catch 404 and forward to error handler

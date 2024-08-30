@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { get_flame_graph_date } = require('../controllers/flame_graph/get_flame_graph_date');
+const { get_flame_graph_date } = require('../controllers/flame_graph_cpu/get_flame_graph_date');
 
 
 router
