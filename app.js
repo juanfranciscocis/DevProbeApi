@@ -8,6 +8,7 @@ const indexRouter = require('./routes/index');
 const flameGraphRouter = require('./routes/flame_graph');
 const flameGraphDateRouter = require('./routes/flame_graph_date');
 const flameGraphMemoryRouter = require('./routes/flame_graph_memory');
+const flameGraphMemoryDateRouter = require('./routes/flame_graph_memory_date');
 
 const app = express();
 
@@ -43,6 +44,7 @@ app.use('/', indexRouter);
 app.use('/flame_graph', flameGraphRouter);
 app.use('/flame_graph_date', flameGraphDateRouter);
 app.use('/flame_graph_memory', flameGraphMemoryRouter);
+app.use('/flame_graph_memory_date', flameGraphMemoryDateRouter);
 
 
 
