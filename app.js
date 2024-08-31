@@ -1,6 +1,7 @@
 const createError = require('http-errors');
 const express = require('express');
 const cors = require('cors')
+const axios = require('axios');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -19,6 +20,24 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
 }));
+
+
+const url = `https://devprobeapi.onrender.com/`; // Replace with your Render URL
+const interval = 30000; // Interval in milliseconds (30 seconds)
+
+function reloadWebsite() {
+    axios.get(url)
+        .then(response => {
+            console.log(`Reloaded at ${new Date().toISOString()}: Status Code ${response.status}`);
+        })
+        .catch(error => {
+            console.error(`Error reloading at ${new Date().toISOString()}:`, error.message);
+        });
+}
+
+
+setInterval(reloadWebsite, interval);
+
 
 // Connect to Firebase
 const admin = require('firebase-admin');
