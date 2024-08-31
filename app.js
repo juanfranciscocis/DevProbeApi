@@ -1,5 +1,6 @@
 const createError = require('http-errors');
 const express = require('express');
+const cors = require('cors')
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -11,6 +12,13 @@ const flameGraphMemoryRouter = require('./routes/flame_graph_memory');
 const flameGraphMemoryDateRouter = require('./routes/flame_graph_memory_date');
 
 const app = express();
+//allow all origins
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+}));
 
 // Connect to Firebase
 const admin = require('firebase-admin');
