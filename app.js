@@ -6,11 +6,14 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+
 const indexRouter = require('./routes/index');
 const flameGraphRouter = require('./routes/flame_graph');
 const flameGraphDateRouter = require('./routes/flame_graph_date');
 const flameGraphMemoryRouter = require('./routes/flame_graph_memory');
 const flameGraphMemoryDateRouter = require('./routes/flame_graph_memory_date');
+const gitHubRepoRouter = require('./routes/github_repo');
+const githubFileRouter = require('./routes/github_file');
 
 const app = express();
 //allow all origins
@@ -72,6 +75,13 @@ app.use('/flame_graph', flameGraphRouter);
 app.use('/flame_graph_date', flameGraphDateRouter);
 app.use('/flame_graph_memory', flameGraphMemoryRouter);
 app.use('/flame_graph_memory_date', flameGraphMemoryDateRouter);
+app.use('/github_repo', gitHubRepoRouter);
+app.use('/github_file', githubFileRouter);
+
+
+
+
+
 
 
 
