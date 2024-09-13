@@ -4,6 +4,7 @@ let post_unit_test_state = async (req, res) => {
         let team = req.body.team;
         let product = req.body.product;
         let step = req.body.step;
+        let unit_test_title = req.body.unit_test_title;
         let state = req.body.state;
 
 
@@ -16,6 +17,9 @@ let post_unit_test_state = async (req, res) => {
         }
         if (!step) {
             throw 'step is required';
+        }
+        if (!unit_test_title) {
+            throw 'unit_test_title is required';
         }
         if (state === undefined) {
             throw 'state is required';
@@ -33,27 +37,40 @@ let post_unit_test_state = async (req, res) => {
         let data = snapshot.data();
 
         // Update the document with the new state
-        data[step][0].state = state;
+        for (let i = 0; i < data[step].length; i++) {
+            if(data[step][i].title === unit_test_title) {
+                data[step][i].state = state;
 
-        //Update the last_state_changed field
-        let date = new Date();
-        // Format the date as DD/MM/YYYY HH:MM:SS
-        str_date = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                //Update the last_state_changed field
+                let date = new Date();
+                // Format the date as DD/MM/YYYY HH:MM:SS
+                str_date = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 
-        last_state_change_arr = data[step][0].last_state_change;
+                last_state_change_arr = data[step][i].last_state_change;
 
-        last_state_change_arr.push({
-            date: str_date,
-            state: state
-        });
+                last_state_change_arr.push({
+                    date: str_date,
+                    state: state
+                });
 
-        data[step][0].last_state_change = last_state_change_arr;
+                data[step][i].last_state_change = last_state_change_arr;
+
+
+            }
+        }
+
 
         //Update the document
         await db.collection(collection).doc("unit_tests").set(data);
 
         await db.collection(collection).doc("unit_tests").get().then(doc => {
-            res.status(200).send(doc.data());
+            let document = doc.data();
+            docuement=document[step];
+            for(let i=0;i<docuement.length;i++){
+                if(docuement[i].title===unit_test_title){
+                    res.status(200).send(docuement[i]);
+                }
+            }
         });
 
     } catch (error) {
