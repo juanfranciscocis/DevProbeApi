@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 
+
 const indexRouter = require('./routes/index');
 const flameGraphRouter = require('./routes/flame_graph');
 const flameGraphDateRouter = require('./routes/flame_graph_date');
@@ -84,7 +85,24 @@ app.use('/integration_test_state', integrationTestStateRouter);
 
 
 
+//Execute a linux command
+function executeCommand(command) {
+    return new Promise((resolve, reject) => {
+        const exec = require('child_process').exec;
+        console.log(`Executing command: ${command}`);
+        exec(command, (error, stdout, stderr) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(stdout);
+            }
+        });
+    });
+}
 
+executeCommand('artillery run asciiart-load-test.yml').then(result => {
+    console.log(result);
+});
 
 
 
