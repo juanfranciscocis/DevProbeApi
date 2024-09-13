@@ -1,5 +1,5 @@
 
-let get_github_repo = async (req, res) => {
+let post_github_repo = async (req, res) => {
 
     try {
         const { Octokit } = await import("@octokit/rest");
@@ -64,4 +64,4 @@ let get_github_repo = async (req, res) => {
 }
 
 
-module.exports = {get_github_repo};
+module.exports = {get_github_repo: post_github_repo};
