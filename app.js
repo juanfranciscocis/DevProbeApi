@@ -8,6 +8,7 @@ const logger = require('morgan');
 
 
 
+
 const indexRouter = require('./routes/index');
 const flameGraphRouter = require('./routes/flame_graph');
 const flameGraphDateRouter = require('./routes/flame_graph_date');
@@ -17,6 +18,8 @@ const gitHubRepoRouter = require('./routes/github_repo');
 const githubFileRouter = require('./routes/github_file');
 const unitTestStateRouter = require('./routes/unit_test_state');
 const integrationTestStateRouter = require('./routes/integration_test_state');
+const createLoadTestRouter = require('./routes/create_load_test');
+const loadTestResultRouter = require('./routes/load_test_result');
 
 const app = express();
 //allow all origins
@@ -62,6 +65,19 @@ app.use((req, res, next) => {
 
 
 
+const yaml = require('yaml');
+app.use((req, res, next) => {
+    req.yaml = yaml;
+    next();
+});
+
+const fs = require('fs');
+app.use((req, res, next) => {
+    req.fs = fs;
+    next();
+});
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -82,10 +98,13 @@ app.use('/github_repo', gitHubRepoRouter);
 app.use('/github_file', githubFileRouter);
 app.use('/unit_test_state', unitTestStateRouter);
 app.use('/integration_test_state', integrationTestStateRouter);
+app.use('/create_load_test', createLoadTestRouter);
+app.use('/load_test_result', loadTestResultRouter);
 
 
 
-//Execute a linux command
+
+/*//Execute a linux command
 function executeCommand(command) {
     return new Promise((resolve, reject) => {
         const exec = require('child_process').exec;
@@ -102,7 +121,7 @@ function executeCommand(command) {
 
 executeCommand('artillery run asciiart-load-test.yml').then(result => {
     console.log(result);
-});
+});*/
 
 
 
