@@ -1,4 +1,4 @@
-let get_github_file = async (req, res) => {
+let post_github_file = async (req, res) => {
 
     try {
 
@@ -67,7 +67,7 @@ let get_github_file = async (req, res) => {
 
 
 
-module.exports = { get_github_file };
+module.exports = { get_github_file: post_github_file };
 
 
 

@@ -14,6 +14,8 @@ const flameGraphMemoryRouter = require('./routes/flame_graph_memory');
 const flameGraphMemoryDateRouter = require('./routes/flame_graph_memory_date');
 const gitHubRepoRouter = require('./routes/github_repo');
 const githubFileRouter = require('./routes/github_file');
+const unitTestStateRouter = require('./routes/unit_test_state');
+const integrationTestStateRouter = require('./routes/integration_test_state');
 
 const app = express();
 //allow all origins
@@ -77,6 +79,9 @@ app.use('/flame_graph_memory', flameGraphMemoryRouter);
 app.use('/flame_graph_memory_date', flameGraphMemoryDateRouter);
 app.use('/github_repo', gitHubRepoRouter);
 app.use('/github_file', githubFileRouter);
+app.use('/unit_test_state', unitTestStateRouter);
+app.use('/integration_test_state', integrationTestStateRouter);
+
 
 
 
