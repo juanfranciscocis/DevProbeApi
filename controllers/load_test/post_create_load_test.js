@@ -220,6 +220,13 @@ async function saveJSON(jsonFilePath, team, product, service, req) {
     const data = fs.readFileSync(jsonFilePath);
     const jsonData = JSON.parse(data);
 
+    let date = new Date();
+    //year, month, day, hour, minute, second
+    const dateString = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}-${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}`;
+
+    //add date to jsonData
+    jsonData.date = dateString;
+
     const db = req.db;
     const path = `teams/${team}/products/${product}/load_test/${service}`;
     //set data to database service = jsonData
