@@ -1,5 +1,5 @@
 config:
-  target: https://www.google.com/
+  target: http://localhost:4321/
   phases:
     - duration: 1
       arrivalRate: 1
@@ -25,7 +25,6 @@ config:
       - http.response_time.p95: 75
 scenarios:
   - flow:
-      - loop:
-          - get:
-              url: /
-        count: 100
+      loop:
+        get:
+          url: /
