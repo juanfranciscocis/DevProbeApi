@@ -1,0 +1,27 @@
+config:
+  target: http://localhost:4321/contact
+  phases:
+    - duration: 1
+      arrivalRate: 1
+      rampTo: 5
+      name: Warm up phase
+    - duration: 1
+      arrivalRate: 5
+      rampTo: 10
+      name: Ramp up load
+    - duration: 1
+      arrivalRate: 10
+      rampTo: 30
+      name: Spike phase
+  plugins:
+    ensure: {}
+    apdex: {}
+    metrics-by-endpoint: {}
+  apdex:
+    threshold: 100
+scenarios:
+  - flow:
+      - loop:
+          - get:
+              url: /
+        count: 100

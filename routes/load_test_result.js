@@ -1,10 +1,11 @@
-var express = require('express');
-const {join} = require("node:path");
-var router = express.Router();
-/* GET home page. */
-router.get('/', function(req, res, next) {
-    //res the result.html file
-    res.sendFile(join(__dirname, '../controllers/load_test/report_html/report.html'));
-});
+
+const express = require('express');
+const router = express.Router();
+
+const { get_load_test } = require('../controllers/load_test/get_load_test');
+
+
+router
+    .post('/', get_load_test)
 
 module.exports = router;
