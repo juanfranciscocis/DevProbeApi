@@ -7,6 +7,7 @@ let post_create_load_test = async (req, res) => {
         let team = req.body.team;
         let product = req.body.product;
         let service = req.body.service;
+        let sid = req.body.sid;
 
         if (!target) {
 
@@ -68,6 +69,33 @@ let post_create_load_test = async (req, res) => {
         }
         console.log('Load test report generated successfully!');
         await setReportLength(req, {html_len: html_len + 1});
+
+
+        //Send notification using request
+        const request = require('request');
+        let url = `https://devprobeapi.onrender.com/sendNotification`;
+        let headers = {
+            'Content-Type': 'application/json'
+        };
+        let dataString = JSON.stringify({
+            sid: sid,
+            type: 'incident',
+            message: 'Load test created successfully!',
+            target: "https://devprobe-89481.web.app/incident-manager;productObjective=Base%20de%20Datos;step=SQ",
+            title: 'Load test created successfully!'
+        });
+        let options = {
+            url: url,
+            method: 'POST',
+            headers: headers,
+            body: dataString
+        };
+        function callback(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                console.log(body);
+            }
+        }
+        request(options, callback);
 
 
 
