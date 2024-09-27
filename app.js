@@ -20,6 +20,8 @@ const unitTestStateRouter = require('./routes/unit_test_state');
 const integrationTestStateRouter = require('./routes/integration_test_state');
 const createLoadTestRouter = require('./routes/create_load_test');
 const loadTestResultRouter = require('./routes/load_test_result');
+const sendNotificationRouter = require('./routes/sendNotification');
+
 
 const app = express();
 //allow all origins
@@ -100,6 +102,7 @@ app.use('/unit_test_state', unitTestStateRouter);
 app.use('/integration_test_state', integrationTestStateRouter);
 app.use('/create_load_test', createLoadTestRouter);
 app.use('/load_test_result', loadTestResultRouter);
+app.use('/sendNotification', sendNotificationRouter);
 
 
 
