@@ -1,4 +1,6 @@
 let post_notification = async (req, res) => {
+
+    try {
     var request = require('request');
 
     let sid = req.body.sid;
@@ -56,6 +58,10 @@ let post_notification = async (req, res) => {
     request(options, callback);
 
     res.status(200).send({ message: 'Notification sent successfully' });
+    } catch (error) {
+        console.log("error", error);
+        res.status(400).send({ error: error });
+    }
 }
 
 module.exports = { post_notification: post_notification };
