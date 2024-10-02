@@ -77,12 +77,15 @@ let post_create_load_test = async (req, res) => {
         let headers = {
             'Content-Type': 'application/json'
         };
+        product = product.replace(/ /g, '%20'); //replace spaces with %20
+        service = service.replace(/ /g, '%20'); //replace spaces with %20
+        let target_url = "https://devprobe-89481.web.app/load-test;productObjective=" + product + ';step=' + service;
         let dataString = JSON.stringify({
             sid: sid,
-            type: 'incident',
-            message: 'Load test created successfully!',
-            target: "https://devprobe-89481.web.app/incident-manager;productObjective=Base%20de%20Datos;step=SQ",
-            title: 'Load test created successfully!'
+            title: 'Load Test Results',
+            type: 'load_test',
+            message: 'Load test results available!',
+            target: target_url,
         });
         let options = {
             url: url,
