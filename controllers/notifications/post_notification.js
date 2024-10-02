@@ -29,9 +29,9 @@ let post_notification = async (req, res) => {
 
     var dataString;
     switch (type) {
-        case 'incident':
+        case 'new_incident':
             dataString = JSON.stringify({
-                title: 'Incident',
+                title: 'Your have been assigned a new incident',
                 message: message,
                 target_url: target_url,
                 sid: sid
