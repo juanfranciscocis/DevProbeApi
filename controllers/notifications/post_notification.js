@@ -37,6 +37,14 @@ let post_notification = async (req, res) => {
                 sid: sid
             });
             break;
+            case 'load_test':
+            dataString = JSON.stringify({
+                title: 'Load Test Results',
+                message: message,
+                target_url: target_url,
+                sid: sid
+            });
+            break;
 
         default:
             throw 'type is not valid';
