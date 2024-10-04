@@ -84,7 +84,8 @@
       <workItem from="1727468016811" duration="2445000" />
       <workItem from="1727470496980" duration="131000" />
       <workItem from="1727470633083" duration="1887000" />
-      <workItem from="1727885976351" duration="1532000" />
+      <workItem from="1727885976351" duration="3473000" />
+      <workItem from="1727891179008" duration="749000" />
     </task>
     <task id="LOCAL-00001" summary="1. sendNotification ??">
       <option name="closed" value="true" />
@@ -126,7 +127,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727886652791</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="1. sendNotification when load test better notification">
+      <option name="closed" value="true" />
+      <created>1727887737038</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1727887737038</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

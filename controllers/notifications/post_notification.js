@@ -37,6 +37,15 @@ let post_notification = async (req, res) => {
                 sid: sid
             });
             break;
+        case 'update_incident':
+            dataString = JSON.stringify({
+                title: 'There has been an update to your incident',
+                message: message,
+                target_url: target_url,
+                sid: sid
+            });
+            break;
+
             case 'load_test':
             dataString = JSON.stringify({
                 title: 'Load Test Results',
