@@ -55,28 +55,10 @@ let post_notification = async (req, res) => {
             });
             break;
 
-            case 'unit_test':
+            case 'test':
             dataString = JSON.stringify({
-                title: 'You have been assigned a new unit test',
-                message: 'Hey!, you have been assigned a new unit test. Please check the details',
-                target_url: target_url,
-                sid: sid
-            });
-            break;
-
-            case 'integration_test':
-            dataString = JSON.stringify({
-                title: 'You have been assigned a new integration test',
-                message: 'Hey!, you have been assigned a new integration test. Please check the details',
-                target_url: target_url,
-                sid: sid
-            });
-            break;
-
-            case 'system_test':
-            dataString = JSON.stringify({
-                title: 'You have been assigned a new system test',
-                message: 'Hey!, you have been assigned a new system test. Please check the details',
+                title: 'You have been assigned a new test',
+                message: message,
                 target_url: target_url,
                 sid: sid
             });
